@@ -1,0 +1,15 @@
+{"id": "m1", "query": "Solve x^2 - 5x + 6 = 0.", "output": "x^2 - 5x + 6 = (x-2)(x-3), so x=2 or x=3.", "objective": 1}
+{"id": "m2", "query": "Solve x^2 - 5x + 6 = 0.", "output": "The roots are 1 and 6.", "objective": 0}
+{"id": "m3", "query": "Solve x^2 - 5x + 6 = 0.", "output": "Factor to (x-2)(x-3)=0, hence x=2,3.", "objective": 1}
+{"id": "m4", "query": "Solve x^2 - 5x + 6 = 0.", "output": "I can't solve this.", "objective": 0}
+{"id": "m5", "query": "Solve x^2 - 5x + 6 = 0.", "output": "roots are 2 and 3", "objective": 1}
+{"id": "m6", "query": "Solve x^2 - 5x + 6 = 0.", "output": "x=2 only", "objective": 0}
+{"id": "m7", "query": "Solve x^2 - 5x + 6 = 0.", "output": "Using factoring, x^2 - 5x + 6 = (x-2)(x-3), so the solutions are x=2 and x=3.", "objective": 1}
+{"id": "m8", "query": "Solve x^2 - 5x + 6 = 0.", "output": "x = -2 or x = -3.", "objective": 0}
+{"id": "m9", "query": "Solve x^2 - 5x + 6 = 0.", "output": "The equation factors as (x-2)(x-3)=0, giving x in {2,3}.", "objective": 1}
+{"id": "m10", "query": "Solve x^2 - 5x + 6 = 0.", "output": "Applying the quadratic formula gives x = (5 ± 1)/2, so x=2 and x=3.", "objective": 1}
+{"id": "m11", "query": "Solve x^2 - 5x + 6 = 0.", "output": "x = 5/2.", "objective": 0}
+{"id": "m12", "query": "Solve x^2 - 5x + 6 = 0.", "output": "Since 2+3=5 and 2*3=6, the roots are 2 and 3.", "objective": 1}
+{"id": "m13", "query": "Solve x^2 - 5x + 6 = 0.", "output": "The solutions are x=1 and x=4.", "objective": 0}
+{"id": "m14", "query": "Solve x^2 - 5x + 6 = 0.", "output": "Rewriting gives x^2 = 5x - 6, therefore x = sqrt(5x-6).", "objective": 0}
+{"id": "m15", "query": "Solve x^2 - 5x + 6 = 0.", "output": "x=3,2", "objective": 1}
