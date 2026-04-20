@@ -24,21 +24,21 @@ Given a development set of `(query, model_output, objective)` examples and a tas
 
 ```text
 .
-├── autoverifier/
-│   ├── cli.py              # CLI entry point
-│   ├── config.py           # search and model configuration dataclasses
-│   ├── data.py             # JSONL devset loading utilities
-│   ├── execution.py        # verifier parsing, sandboxing, execution
-│   ├── metrics.py          # scoring and feasibility metrics
-│   ├── models.py           # shared dataclasses
-│   ├── prompts.py          # seed / critic / refine / context prompts
-│   ├── search.py           # main single-DAG search loop
-│   └── llm/
-│       ├── base.py
-│       ├── mock.py
-│       ├── openai_llms.py
-│       ├── gemini_llms.py
-│       └── claude_llms.py
+├── src├── autoverifier/
+│           ├── cli.py              # CLI entry point
+│           ├── config.py           # search and model configuration dataclasses
+│           ├── data.py             # JSONL devset loading utilities
+│           ├── execution.py        # verifier parsing, sandboxing, execution
+│           ├── metrics.py          # scoring and feasibility metrics
+│           ├── models.py           # shared dataclasses
+│           ├── prompts.py          # seed / critic / refine / context prompts
+│           ├── search.py           # main single-DAG search loop
+│           └── llm/
+│               ├── base.py
+│               ├── mock.py
+│               ├── openai_llms.py
+│               ├── gemini_llms.py
+│               └── claude_llms.py
 ├── data/
     └── toy/
         ├── devset.jsonl
@@ -98,6 +98,8 @@ The task description is a plain-text file describing:
 To run the toy example, from the project root:
 
 ```bash
+pip install -e .
+
 python -m autopyverifier.cli search \
   --devset data/toy/devset.jsonl \
   --task_description_file data/toy/task_description.txt \
