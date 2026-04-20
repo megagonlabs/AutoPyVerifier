@@ -1,7 +1,7 @@
 # AutoPyVerifier: Learning Compact Executable Verifiers for Large Language Model Outputs
 This repository is the implementation for the paper "AutoPyVerifier: Learning Compact Executable Verifiers for Large Language Model Outputs".
 
-![alt text](https://github.com/megagonlabs/AutoPyVerifier/blob/main/overview.png)
+![alt text](https://github.com/megagonlabs/AutoPyVerifier/blob/main/figs/overview.png)
 
 ---
 
