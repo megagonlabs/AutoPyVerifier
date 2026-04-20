@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=77", "build"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -11,6 +11,7 @@ requires-python = ">=3.10.18"
 authors = [
   { name = "Pouya Pezeshkpour" }
 ]
+license = "BSD-3-Clause"
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
@@ -34,11 +35,12 @@ dev = [
 ]
 
 [project.scripts]
-autoverifier = "autopyverifier.cli:main"
+autopyverifier = "autopyverifier.cli:main"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.packages.find]
+where = ["src"]
 include = ["autopyverifier*"]
-exclude = ["data*", "results*", "tests*"]
+exclude = ["tests*", "results*"]
