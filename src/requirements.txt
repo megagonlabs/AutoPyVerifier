@@ -1,6 +1,0 @@
-# Requires Python >= 3.10.18
-
-openai
-anthropic
-google-genai
-tqdm
