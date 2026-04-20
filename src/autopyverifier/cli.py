@@ -91,16 +91,8 @@ def main() -> None:
     )
     result = engine.run()
 
-    print("Selected signature:", result.selected_signature)
+
     print("Selected size:", result.selected_node.program.size)
-    print("Required fields:", result.selected_node.program.required_fields)
-    print("Feasible:", result.selected_node.stats.feasible)
-    print("PP:", round(result.selected_node.stats.pp, 4))
-    print("NP:", round(result.selected_node.stats.np, 4))
-    print("LCB_PP:", round(result.selected_node.stats.lcb_pp, 4))
-    print("LCB_NP:", round(result.selected_node.stats.lcb_np, 4))
-    print("Accept coverage:", round(result.selected_node.stats.cov_pos, 4))
-    print("Reject coverage:", round(result.selected_node.stats.cov_neg, 4))
     print("Score:", round(result.selected_node.stats.score, 4))
     if search_cfg.out_dir:
         print("Artifacts written to:", search_cfg.out_dir)

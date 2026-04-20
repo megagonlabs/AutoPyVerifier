@@ -18,7 +18,7 @@ class SearchConfig:
     size_coef: float = 0.1
     timeout_seconds: float = 60.0
     max_examples_in_prompt: int = 3
-    max_failure_examples_in_prompt: int = 1
+    max_failure_examples_in_prompt: int = 3
     max_context_examples_per_call: int = 1
     out_dir: Optional[Path] = None
 
