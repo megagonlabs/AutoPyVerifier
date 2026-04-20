@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autopyverifier"
+version = "0.1.0"
+description = "Search for compact executable verifier sets for LLM outputs."
+readme = "README.md"
+requires-python = ">=3.10.18"
+authors = [
+  { name = "Pouya Pezeshkpour" }
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "openai",
+  "anthropic",
+  "google-genai",
+  "tqdm",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2.0",
+  "twine>=5.0.0",
+  "pytest>=8.0.0",
+]
+
+[project.scripts]
+autoverifier = "autopyverifier.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["autopyverifier*"]
+exclude = ["data*", "results*", "tests*"]
