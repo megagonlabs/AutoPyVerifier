@@ -1,26 +1,24 @@
+# AutoPyVerifier: Learning Compact Executable Verifiers for Large Language Model Outputs
+This repository is the implementation for the paper "AutoPyVerifier: Learning Compact Executable Verifiers for Large Language Model Outputs".
+
+![alt text](https://github.com/megagonlabs/Insight-RAG/blob/main/overview-insight-rag.png)
+
+---
+
 # AutoVerifier
 
-AutoVerifier is a small research-style pipeline for searching over **deterministic Python verifier bundles** for labeled LLM outputs.
+AutoVerifier is a pipeline for searching over **deterministic Python verifier bundles** for labeled LLM outputs.
 
-Given a development set of `(query, model_output, objective)` examples and a task description, the system uses an LLM to:
+Given a development set of `(query, model_output, objective)` examples and a task description, the system uses an LLM to iteratively:
 
 1. propose initial verifier bundles,
 2. critique their failures,
 3. refine them into new candidates,
-4. execute each bundle in a restricted sandbox, and
-5. select a compact verifier set that best balances acceptance precision, rejection precision, coverage, and size.
+4. execute each bundle in a restricted sandbox,
+5. search over the DAG, and
+6. select a compact verifier set that best balances the score, exploration, feasibility, and size.
 
-The codebase is organized as a lightweight CLI package and currently supports `mock`, `openai`, `gemini`, and `claude` backends.
-
-## What the project does
-
-At a high level, AutoVerifier searches for a verifier set of the following form:
-
-- a `VERIFIER_SPECS` list describing atomic verifier functions,
-- one Python function per verifier, and
-- an `aggregate(checks, x, y, context=None)` function that combines verifier decisions into a final accept/reject verdict.
-
-Each candidate bundle is evaluated on a labeled development set. The search keeps track of candidate nodes, expands promising ones, and writes the selected verifier plus search artifacts to disk.
+---
 
 ## Repository structure
 
@@ -42,10 +40,10 @@ Each candidate bundle is evaluated on a labeled development set. The search keep
 │       ├── gemini_llms.py
 │       └── claude_llms.py
 ├── data/
-│   └── toy/
-│       ├── devset.jsonl
-│       └── task_description.txt
-└── run.sh                  # example run script
+    └── toy/
+        ├── devset.jsonl
+        └── task_description.txt
+
 ```
 
 ## Requirements
@@ -58,32 +56,13 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-A minimal `requirements.txt` for the current codebase is:
-
-```txt
-# Requires Python >= 3.10.18
-openai
-anthropic
-google-genai
-tqdm
-```
-
 ## API keys
 
-Set only the key for the backend you plan to use:
+Set only the key for the backend you plan to use. For example:
 
 ```bash
 export OPENAI_API_KEY="..."
-export ANTHROPIC_API_KEY="..."
-export GEMINI_API_KEY="..."
 ```
-
-Notes:
-
-- The OpenAI backend expects the `openai` Python SDK.
-- The Gemini backend expects `google-genai`.
-- The Claude backend expects `anthropic`.
-- In the current implementation, backend modules are imported eagerly, so having all listed SDK packages installed is the safest setup even if you only plan to use one backend.
 
 ## Input format
 
@@ -104,19 +83,19 @@ Example:
 
 The task description is a plain-text file describing:
 
-- what `x` and `y` represent,
-- what objective label `1` means,
+- what `query` and `output` represent,
+- what objective labels `1` and `0` mean,
 - what kinds of verifier logic are allowed or desired, and
 - what the search should optimize for.
 
 ## Quick start
 
-### 1. Run the toy example with a real backend
+### 1. Run the toy example
 
 From the project root:
 
 ```bash
-python -m autoverifier.cli search \
+python -m autopyverifier.cli search \
   --devset data/toy/devset.jsonl \
   --task_description_file data/toy/task_description.txt \
   --llm_backend openai \
@@ -124,43 +103,11 @@ python -m autoverifier.cli search \
   --critic_model gpt-5.4 \
   --refine_model gpt-5.4 \
   --context_model gpt-5.4 \
-  --budget 2 \
+  --budget 20 \
   --feasible_coef 0.1 \
   --explore_coef 0.1 \
   --size_coef 0.1 \
   --out_dir results/toy/gpt54
-```
-
-This is essentially what `run.sh` demonstrates, except you should supply the API key through environment variables rather than hardcoding it in the script.
-
-### 2. Run with the mock backend
-
-If you only want to exercise the search flow without external API calls:
-
-```bash
-python -m autoverifier.cli search \
-  --devset data/toy/devset.jsonl \
-  --task_description_file data/toy/task_description.txt \
-  --llm_backend mock \
-  --seed_model mock-seed \
-  --critic_model mock-critic \
-  --refine_model mock-refine \
-  --context_model mock-context \
-  --budget 2 \
-  --out_dir results/toy/mock
-```
-
-## Main CLI arguments
-
-```text
-python -m autoverifier.cli search \
-  --devset PATH \
-  --task_description_file PATH | --task_description TEXT \
-  --llm_backend {mock,openai,gemini,claude} \
-  --seed_model MODEL \
-  --critic_model MODEL \
-  --refine_model MODEL \
-  --context_model MODEL
 ```
 
 Useful optional flags:
@@ -170,9 +117,6 @@ Useful optional flags:
 - `--max_output_tokens`: output token budget for model calls
 - `--beta_pp`: feasibility threshold for lower-confidence acceptance precision
 - `--beta_np`: feasibility threshold for lower-confidence rejection precision
-- `--feasible_coef`: acquisition bonus for feasible nodes
-- `--explore_coef`: exploration weight in node selection
-- `--size_coef`: penalty on verifier-set size
 - `--timeout_seconds`: per-bundle execution timeout
 - `--out_dir`: where to write search artifacts
 
@@ -186,63 +130,18 @@ When `--out_dir` is provided, the search writes:
 - `summary.json`: high-level search summary
 - `nodes/*.py`: source code for each explored verifier bundle
 
-## How evaluation works
 
-For each candidate verifier bundle:
+## ⭐ **Citation**
 
-1. the system determines which `context` fields are required from `VERIFIER_SPECS`,
-2. an LLM context builder produces those fields for each example,
-3. the verifier bundle is executed in a subprocess sandbox,
-4. each example is accepted or rejected by `aggregate(...)`, and
-5. the bundle is scored using precision-oriented metrics and feasibility thresholds.
+If you would like to cite our work, the bibtex is:
 
-The current metrics implementation computes:
+    @article{pezeshkpour2026autopyverifier,
+    title={AutoPyVerifier: Learning Compact Executable Verifiers for Large Language Model Outputs},
+    author={Pezeshkpour, Pouya and Hruschka, Estevam},
+    year={2026}
+    }
 
-- positive-side precision (`PP`),
-- negative-side precision (`NP`),
-- accept and reject coverage,
-- lower confidence bounds for `PP` and `NP`, and
-- a macro-F1-style score used inside search.
+---
 
-A node is considered feasible when its lower confidence bounds clear the configured `beta_pp` and `beta_np` thresholds.
-
-## Sandbox restrictions for generated verifiers
-
-Verifier code is intentionally restricted.
-
-Allowed imports are limited to:
-
-- `math`
-- `re`
-- `json`
-- `statistics`
-- `fractions`
-- `decimal`
-- `itertools`
-- `collections`
-- `ast`
-
-The sandbox also blocks several risky builtins and syntax forms such as `eval`, `exec`, `open`, `input`, class definitions, async constructs, and context managers.
-
-## Notes and current limitations
-
-- This is a compact experimental codebase rather than a packaged library.
-- The current search implementation is a single-DAG search rooted at a placeholder node.
-- `run.sh` should not contain hardcoded secrets; prefer environment variables.
-- Because backend modules are imported eagerly, missing SDK packages can cause import-time failures even when that backend is not selected.
-- Generated verifier bundles must return Python code blocks in the expected format, or the candidate will be ignored.
-
-## Suggested first improvements
-
-If you plan to keep developing this repository, these are sensible next steps:
-
-- add a `pyproject.toml` and package metadata,
-- move API-key handling entirely to environment variables,
-- make backend imports lazy so users only install the SDK they need,
-- add tests for parsing, sandbox validation, and metric computation, and
-- add a richer example beyond the toy math dataset.
-
-## License
-
-Add your preferred license here before publishing.
-# AutoPyVerifier
+## 📜 **Disclosure**
+Embedded in, or bundled with, this product are open source software (OSS) components, datasets and other third party components identified below. The license terms respectively governing the datasets and third-party components continue to govern those portions, and you agree to those license terms, which, when applicable, specifically limit any distribution. You may receive a copy of, distribute and/or modify any open source code for the OSS component under the terms of their respective licenses, which may be CC license and Apache 2.0 license. In the event of conflicts between Megagon Labs, Inc., license conditions and the Open Source Software license conditions, the Open Source Software conditions shall prevail with respect to the Open Source Software portions of the software. You agree not to, and are not permitted to, distribute actual datasets used with the OSS components listed below. You agree and are limited to distribute only links to datasets from known sources by listing them in the datasets overview table below. You are permitted to distribute derived datasets of data sets from known sources by including links to original dataset source in the datasets overview table below. You agree that any right to modify datasets originating from parties other than Megagon Labs, Inc. are governed by the respective third party’s license conditions. All OSS components and datasets are distributed WITHOUT ANY WARRANTY, without even implied warranty such as for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE, and without any liability to or claim against any Megagon Labs, Inc. entity other than as explicitly documented in this README document. You agree to cease using any part of the provided materials if you do not agree with the terms or the lack of any warranty herein. While Megagon Labs, Inc., makes commercially reasonable efforts to ensure that citations in this document are complete and accurate, errors may occur. If you see any error or omission, please help us improve this document by sending information to contact_oss@megagon.ai.
