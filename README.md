@@ -47,7 +47,7 @@ Given a development set of `(query, model_output, objective)` examples and a tas
 ```
 --- 
 
-## Requirements
+## ⚙️ **Requirements**
 
 Use Python `>= 3.10.18`.
 
@@ -58,7 +58,7 @@ pip install -r requirements.txt
 ```
 ---
 
-## API keys
+## 🔑 **API keys**
 
 Set only the key for the backend you plan to use. For example:
 
@@ -67,7 +67,7 @@ export OPENAI_API_KEY="..."
 ```
 ---
 
-## Input format
+## 📥 **Input format**
 
 The development set is a JSONL file. Each line should have:
 
@@ -125,7 +125,7 @@ Useful optional flags:
 
 ---
 
-## What gets written to `out_dir`
+## 🗂️ **What gets written to `out_dir`**
 
 When `--out_dir` is provided, the search writes:
 
