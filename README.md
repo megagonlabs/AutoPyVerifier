@@ -20,7 +20,7 @@ Given a development set of `(query, model_output, objective)` examples and a tas
 
 ---
 
-## Repository structure
+## 📂 **Repository structure**
 
 ```text
 .
