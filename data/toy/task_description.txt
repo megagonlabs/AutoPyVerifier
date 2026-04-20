@@ -1,8 +1,8 @@
 You are building deterministic Python verifier sets for a labeled development set.
 
 Task:
-- Input x is a math question.
-- Output y is a proposed full solution or answer from an LLM.
+- Input query is a math question.
+- Output is a proposed full solution or answer from an LLM.
 - Objective label 1 means the solution/answer satisfies the target objective which is providing a completely correct answer.
 - Objective label 0 means it does not.
 
