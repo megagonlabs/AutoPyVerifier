@@ -45,6 +45,7 @@ Given a development set of `(query, model_output, objective)` examples and a tas
         └── task_description.txt
 
 ```
+--- 
 
 ## Requirements
 
@@ -55,6 +56,7 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+---
 
 ## API keys
 
@@ -63,6 +65,7 @@ Set only the key for the backend you plan to use. For example:
 ```bash
 export OPENAI_API_KEY="..."
 ```
+---
 
 ## Input format
 
@@ -88,11 +91,11 @@ The task description is a plain-text file describing:
 - what kinds of verifier logic are allowed or desired, and
 - what the search should optimize for.
 
-## Quick start
+---
 
-### 1. Run the toy example
+## 🚀 **Quick Start**
 
-From the project root:
+To run the toy example, from the project root:
 
 ```bash
 python -m autopyverifier.cli search \
@@ -120,6 +123,8 @@ Useful optional flags:
 - `--timeout_seconds`: per-bundle execution timeout
 - `--out_dir`: where to write search artifacts
 
+---
+
 ## What gets written to `out_dir`
 
 When `--out_dir` is provided, the search writes:
@@ -130,6 +135,7 @@ When `--out_dir` is provided, the search writes:
 - `summary.json`: high-level search summary
 - `nodes/*.py`: source code for each explored verifier bundle
 
+---
 
 ## ⭐ **Citation**
 
