@@ -44,3 +44,8 @@ include-package-data = true
 where = ["src"]
 include = ["autopyverifier*"]
 exclude = ["tests*", "results*"]
+
+[project.urls]
+Homepage = "https://github.com/megagonlabs/AutoPyVerifier"
+Repository = "https://github.com/megagonlabs/AutoPyVerifier"
+Issues = "https://github.com/megagonlabs/AutoPyVerifier/issues"
