@@ -5,9 +5,9 @@ This repository is the implementation for the paper "AutoPyVerifier: Learning Co
 
 ---
 
-# AutoVerifier
+# AutoPyVerifier
 
-AutoVerifier is a pipeline for searching over **deterministic Python verifier bundles** for labeled LLM outputs.
+AutoPyVerifier is a pipeline for searching over **deterministic Python verifier bundles** for labeled LLM outputs.
 
 Given a development set of `(query, model_output, objective)` examples and a task description, the system uses an LLM to iteratively:
 
@@ -24,7 +24,7 @@ Given a development set of `(query, model_output, objective)` examples and a tas
 
 ```text
 .
-├── src├── autoverifier/
+├── src├── autopyverifier/
 │           ├── cli.py              # CLI entry point
 │           ├── config.py           # search and model configuration dataclasses
 │           ├── data.py             # JSONL devset loading utilities
