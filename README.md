@@ -20,6 +20,14 @@ Given a development set of `(query, model_output, objective)` examples and a tas
 
 ---
 
+## 🐍 **Python Library**
+
+AutoPyVerifier is also available as a Python package on PyPI:
+
+**autopyverifier**: https://pypi.org/project/autopyverifier/
+
+---
+
 ## 📂 **Repository structure**
 
 ```text
